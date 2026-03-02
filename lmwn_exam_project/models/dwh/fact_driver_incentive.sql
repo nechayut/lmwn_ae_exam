@@ -20,7 +20,7 @@ select
     o.log_id,
     o.driver_id,
     o.incentive_program,
-    o.bonus_amount,
+    cast(o.bonus_amount as DECIMAL(10, 2)) bonus_amount,
     o.applied_date,
     o.delivery_target,
     o.actual_deliveries,

@@ -37,7 +37,7 @@ select
     s.resolved_datetime,
     s.status,
     s.csat_score,
-    s.compensation_amount,
+    cast(s.compensation_amount as DECIMAL(10, 2)) compensation_amount,
     s.resolved_by_agent_id,
     case
       when c.customer_sk is null then True else False

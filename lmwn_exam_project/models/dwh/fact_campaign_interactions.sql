@@ -23,10 +23,10 @@ select
     o.event_type,
     o.platform,
     o.device_type,
-    o.ad_cost,
+    cast(o.ad_cost as DECIMAL(10, 2)) ad_cost,
     o.order_id,
     o.is_new_customer,
-    o.revenue,
+    cast(o.revenue as DECIMAL(10, 2)) revenue,
     o.session_id,
     case
       when c.customer_sk is null then True else False
