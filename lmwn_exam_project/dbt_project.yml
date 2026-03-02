@@ -1,0 +1,21 @@
+name: lmwn_ae_exam
+version: 1.0
+config-version: 2
+
+profile: 'lmwn_exam_project'
+model-paths: ["models"]
+
+models:
+  lmwn_ae_exam:
+    staging:
+      +materialized: table
+      +schema: staging
+    reports:
+      +materialized: table
+      +schema: report
+    dwh:
+      +materialized: table
+      +schema: dwh
+    dm:
+      +materialized: table
+      +schema: dm

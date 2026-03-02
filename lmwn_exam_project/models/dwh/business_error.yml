@@ -1,0 +1,171 @@
+models:
+  - name: dim_campaign
+    columns:
+      - name: campaign_id
+        tests: [not_null, unique]
+      - name: campaign_name
+        tests: [not_null]
+      - name: start_date
+        tests: [not_null]
+      - name: dwh_load_dt
+        tests: [not_null]
+
+  - name: dim_restaurants
+    columns:
+      - name: restaurant_id
+        tests: [not_null, unique]
+      - name: name
+        tests: [not_null]
+      - name: city
+        tests: [not_null]
+      - name: dwh_load_dt
+        tests: [not_null]
+
+  - name: dim_customers
+    columns:
+      - name: customer_sk
+        tests: [not_null, unique]
+      - name: customer_id
+        tests: [not_null]
+      - name: effective_start
+        tests: [not_null]
+      - name: effective_end
+        tests: [not_null]
+      - name: dwh_load_dt
+        tests: [not_null]
+
+  - name: dim_drivers
+    columns:
+      - name: driver_sk
+        tests: [not_null, unique]
+      - name: driver_id
+        tests: [not_null]
+      - name: effective_start
+        tests: [not_null]
+      - name: effective_end
+        tests: [not_null]
+      - name: dwh_load_dt
+        tests: [not_null]
+
+  - name: fact_order_transactions
+    columns:
+      - name: order_id
+        tests: [not_null, unique]
+      - name: order_datetime
+        tests: [not_null]
+      - name: customer_id
+        tests: [not_null]
+      - name: restaurant_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_restaurants')
+              field: restaurant_id
+      - name: driver_id
+        tests: [not_null]
+      - name: total_amount
+        tests: [not_null]
+      - name: dwh_load_dt
+        tests: [not_null]
+
+  - name: fact_order_status
+    columns:
+      - name: log_id
+        tests: [not_null, unique]
+      - name: order_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('fact_order_transactions')
+              field: order_id
+      - name: status
+        tests: [not_null]
+      - name: status_datetime
+        tests: [not_null]
+      - name: dwh_load_dt
+        tests: [not_null]
+
+  - name: fact_support_ticket
+    columns:
+      - name: ticket_id
+        tests: [not_null, unique]
+      - name: opened_datetime
+        tests: [not_null]
+      - name: status
+        tests: [not_null]
+      - name: customer_id
+        tests: [not_null]
+      - name: order_id
+        tests:
+          - relationships:
+              to: ref('fact_order_transactions')
+              field: order_id
+      - name: restaurant_id
+        tests:
+          - relationships:
+              to: ref('dim_restaurants')
+              field: restaurant_id
+      - name: dwh_load_dt
+        tests: [not_null]
+
+  - name: fact_ticket_status
+    columns:
+      - name: log_id
+        tests: [not_null, unique]
+      - name: ticket_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('fact_support_ticket')
+              field: ticket_id
+      - name: status
+        tests: [not_null]
+      - name: status_datetime
+        tests: [not_null]
+      - name: dwh_load_dt
+        tests: [not_null]
+
+  - name: fact_customer_session
+    columns:
+      - name: session_id
+        tests: [not_null, unique]
+      - name: customer_id
+        tests: [not_null]
+      - name: session_start
+        tests: [not_null]
+      - name: session_end
+        tests: [not_null]
+      - name: dwh_load_dt
+        tests: [not_null]
+
+  - name: fact_driver_incentive
+    columns:
+      - name: log_id
+        tests: [not_null, unique]
+      - name: driver_id
+        tests: [not_null]
+      - name: applied_date
+        tests: [not_null]
+      - name: bonus_amount
+        tests: [not_null]
+      - name: dwh_load_dt
+        tests: [not_null]
+
+  - name: fact_campaign_interactions
+    columns:
+      - name: interaction_id
+        tests: [not_null, unique]
+      - name: interaction_datetime
+        tests: [not_null]
+      - name: campaign_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_campaign')
+              field: campaign_id
+      - name: customer_id
+        tests: [not_null]
+      - name: event_type
+        tests: [not_null]
+      - name: dwh_load_dt
+        tests: [not_null]

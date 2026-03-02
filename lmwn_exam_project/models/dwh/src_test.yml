@@ -1,0 +1,20 @@
+sources:
+  - name: raw
+    schema: main
+    tables:
+      - name: restaurants_master
+      - name: campaign_master
+      - name: customers_master
+      - name: drivers_master
+      - name: order_transactions
+      - name: campaign_interactions
+      - name: order_log_incentive_sessions_customer_app_sessions
+      - name: order_log_incentive_sessions_driver_incentive_logs
+      - name: order_log_incentive_sessions_order_status_logs
+      - name: support_ticket_status_logs
+      - name: support_tickets
+
+  - name: staging
+    schema: staging
+    tables:
+      - name: customer_test
