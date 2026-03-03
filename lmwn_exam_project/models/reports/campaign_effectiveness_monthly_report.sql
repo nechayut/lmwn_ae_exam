@@ -1,5 +1,5 @@
 {{ config(
-    materialized='table',
+    materialized='view',
     schema='reports',
     alias='campaign_effectiveness_monthly_report',
     tags=['report','marketing']
