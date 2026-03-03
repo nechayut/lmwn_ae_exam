@@ -1,5 +1,5 @@
  {{ config(
-    materialized='view',
+    materialized='table',
     schema='reports',
     alias='customer_acquisition_report',
     tags=['report','marketing']
@@ -55,7 +55,8 @@ with first_last_session_start as (
 
 select a.*,
         repeat_customer_count ,
-        cast(ad_cost/nullif(new_customer_count,0) as decimal(10,2)) cost_of_customer_acquisiton
+        cast(ad_cost/nullif(new_customer_count,0) as decimal(10,2)) cost_of_customer_acquisiton,
+        current_timestamp as report_load_dt
 from agg a
 left join repeat_order r on a.campaign_id = r.campaign_id
 

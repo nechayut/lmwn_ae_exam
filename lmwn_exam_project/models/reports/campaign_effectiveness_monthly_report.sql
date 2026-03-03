@@ -1,5 +1,5 @@
 {{ config(
-    materialized='view',
+    materialized='table',
     schema='reports',
     alias='campaign_effectiveness_monthly_report',
     tags=['report','marketing']
@@ -31,6 +31,7 @@ select r.report_month,
         r.cost_per_click,
         r.conversion_rate,
         r.unique_clickers,
-        r.purchasers 
+        r.purchasers,
+        current_timestamp as report_load_dt
 from agg r
 join {{ ref('dim_campaign') }} d on r.campaign_id = d.campaign_id
