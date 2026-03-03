@@ -35,7 +35,6 @@ with order_sequence_after_validate as (
         camp.platform ,
         camp.device_type ,
         camp.ad_cost    ,
-        camp.order_id  ,
         camp.is_new_customer ,
         camp.customer_pre_signup_order ,
         current_timestamp as dm_load_dt
