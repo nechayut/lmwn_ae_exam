@@ -26,9 +26,11 @@ select
 from source
 
 {% if is_incremental() %}
-  where dm_load_dt > (
-    select coalesce(max(dm_load_dt), timestamp '1900-01-01') from {{ this }}
-) and campaign_id is not null
+  where date_trunc('month',interaction_datetime) in (select distinct date_trunc('month',interaction_datetime) from source where dm_load_dt > (select max(dm_load_dt) from {{ this }} )) and campaign_id is not null
 {% endif %}
 
 group by report_month ,campaign_id,platform 
+
+
+
+
