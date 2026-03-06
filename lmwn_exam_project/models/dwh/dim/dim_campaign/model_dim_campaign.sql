@@ -1,5 +1,5 @@
 {{ config(
-    materialized='view',
+    materialized='table',
     schema='dwh',
     alias='model_dim_campaign',
     tags=['dim','type1']

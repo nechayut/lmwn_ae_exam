@@ -1,5 +1,5 @@
  {{ config(
-    materialized='view',
+    materialized='table',
     schema='reports',
     alias='report_restaurant_quality_complaint',
     tags=['report','customer service']

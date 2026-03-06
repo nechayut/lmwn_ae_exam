@@ -1,5 +1,5 @@
 {{ config(
-    materialized='view',
+    materialized='table',
     schema='dm',
     alias='model_dm_retargeting_customer_conversion_time_gap',
     tags=['dm','customer service']

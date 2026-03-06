@@ -1,5 +1,6 @@
 {{ config(
-    materialized='view',
+    materialized='incremental',
+    unique_key='order_id',
     schema='dm',
     alias='model_dm_order_mapping_driver',
     tags=['mart','marketing']
@@ -63,4 +64,9 @@ left join order_status os on ot.order_id = os.order_id
 left join support_ticket st on ot.order_id = st.order_id
 left join drivers d on ot.driver_sk = d.driver_sk
 
+{% if is_incremental() %}
+  where ot.dwh_load_dt > (
+    select coalesce(max(dm_load_dt), timestamp '1900-01-01') from {{ this }}
+)
+{% endif %}
 

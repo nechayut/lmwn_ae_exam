@@ -1,5 +1,5 @@
 {{ config(
-    materialized='view',
+    materialized='table',
     schema='dm',
     alias='model_dm_incentive_detail_show_in_order_transaction',
     tags=['dm','fleet']
