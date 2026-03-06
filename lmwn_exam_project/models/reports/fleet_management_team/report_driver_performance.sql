@@ -26,5 +26,5 @@ select driver_id,
         cast(avg(csat_score) as decimal(10,2)) rating,
         count(csat_score) customer_issue_count,
         current_timestamp as report_load_dt 
-from {{ ref('dm_order_mapping_driver') }} 
+from {{ ref('model_dm_order_mapping_driver') }} 
 group by driver_id,vehicle_type,delivery_zone 

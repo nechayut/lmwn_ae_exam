@@ -3,7 +3,7 @@
 
     schema='dwh',
     unique_key='session_id',
-    alias='fact_customer_session',
+    alias='model_fact_customer_session',
     tags=['fact']
 ) }}
 with customers_earlies as (
@@ -11,7 +11,7 @@ with customers_earlies as (
         customer_id,
         effective_start,
         effective_end,
-        row_number() over(partition by customer_id order by effective_start) rn  from {{ ref('dim_customers') }} ) c_earlies
+        row_number() over(partition by customer_id order by effective_start) rn  from {{ ref('model_dim_customers') }} ) c_earlies
         where rn = 1)
 
 select
@@ -29,7 +29,7 @@ select
     end as customer_pre_signup_order,
     current_timestamp as dwh_load_dt
 from {{source('raw','order_log_incentive_sessions_customer_app_sessions')}} o
-left join {{ ref('dim_customers') }} c
+left join {{ ref('model_dim_customers') }} c
   on o.customer_id = c.customer_id
  and o.session_start between c.effective_start and c.effective_end
 left join customers_earlies c_earlies

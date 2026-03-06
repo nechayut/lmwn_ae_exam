@@ -2,12 +2,12 @@
     materialized='incremental',
     unique_key=['report_month','campaign_id','platform'],
     schema='dm',
-    alias='dm_campaign_effectiveness_monthly',
+    alias='model_dm_campaign_effectiveness_monthly',
     tags=['mart','marketing']
 ) }}
 
 with source as (
-    select * from {{ ref('dm_order_mapping_customer_mapping_campaign') }}
+    select * from {{ ref('model_dm_order_mapping_customer_mapping_campaign') }}
     where campaign_id is not null
 )
 select 

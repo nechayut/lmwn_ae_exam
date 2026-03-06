@@ -1,7 +1,7 @@
 {{ config(
     materialized='table',
     schema='dm',
-    alias='dm_delivery_zone_by_hour',
+    alias='model_dm_delivery_zone_by_hour',
     tags=['dm','fleet']
 ) }}
 
@@ -17,6 +17,6 @@ select
     count(distinct case when lower(order_status) = 'canceled' then driver_id else null end) canceled_driver_count,
     sum(case when is_late_delivery = true then 1 else 0 end) late_order_count,
     current_timestamp as dm_load_dt
-from {{ ref('dm_order_mapping_driver') }}
+from {{ ref('model_dm_order_mapping_driver') }}
 group by delivery_zone,order_date,hour_slot
 order by delivery_zone,order_date,hour_slot

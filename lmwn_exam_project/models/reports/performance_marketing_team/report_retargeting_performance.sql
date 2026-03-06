@@ -11,7 +11,7 @@ with retargeting as(
                 campaign_id,
                 objective,
                 channel 
-        from {{ ref('dim_campaign') }} where campaign_type = 'retargeting'
+        from {{ ref('model_dim_campaign') }} where campaign_type = 'retargeting'
 ),
 day_gap as (
         select 
@@ -20,8 +20,8 @@ day_gap as (
                 cast(avg(time_gap_original_and_returning_orders) as decimal(10,2)) avg_day_gap_original_and_returning_orders,
                 cast(avg(time_gap_returning_and_repeat_orders ) as decimal(10,2)) avg_day_gap_returning_and_repeat_orders,
                 sum( case when is_order_after_retargeting = true then 1 else 0 end) retention_count
-        from {{ ref('dm_retargeting_customer_conversion_time_gap') }} rcc
-        left join {{ ref('dim_customers') }} cus on rcc.customer_id = cus.customer_id
+        from {{ ref('model_dm_retargeting_customer_conversion_time_gap') }} rcc
+        left join {{ ref('model_dim_customers') }} cus on rcc.customer_id = cus.customer_id
         group by rcc.campaign_objective,customer_segment
 ),
 
@@ -32,9 +32,9 @@ source as (
             count(distinct dmo.customer_id) unique_targeted_count,
             count(distinct case when lower(event_type) = 'conversion' then dmo.customer_id else null end) unique_returned_count,
             cast(sum(case when lower(event_type) = 'conversion' then dmo.total_amount else null end) as decimal(10,2)) total_spend_by_retargeted_customers
-        from {{ ref('dm_order_mapping_customer_mapping_campaign') }} dmo
+        from {{ ref('model_dm_order_mapping_customer_mapping_campaign') }} dmo
         inner join retargeting r on dmo.campaign_id = r.campaign_id
-        left join {{ ref('dim_customers') }} cus on dmo.customer_id = cus.customer_id
+        left join {{ ref('model_dim_customers') }} cus on dmo.customer_id = cus.customer_id
         group by objective,cus.customer_segment)
         
 select 

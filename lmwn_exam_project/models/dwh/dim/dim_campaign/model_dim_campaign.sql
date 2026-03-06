@@ -1,7 +1,7 @@
 {{ config(
     materialized='table',
     schema='dwh',
-    alias='dim_campaign',
+    alias='model_dim_campaign',
     tags=['dim','type1']
 ) }}
 

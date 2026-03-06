@@ -1,7 +1,7 @@
 {{ config(
     materialized='view',
     schema='dm',
-    alias='dm_retargeting_customer_conversion_time_gap',
+    alias='model_dm_retargeting_customer_conversion_time_gap',
     tags=['dm','customer service']
 ) }}
 
@@ -9,21 +9,21 @@ with retargeting as(
 select 
     campaign_id,
     objective,channel 
-from {{ ref('dim_campaign') }}
+from {{ ref('model_dim_campaign') }}
 where campaign_type = 'retargeting'
 ),
 transaction as (
         select 
             customer_id,
             order_datetime 
-        from {{ ref('dm_order_mapping_customer_mapping_campaign') }}
+        from {{ ref('model_dm_order_mapping_customer_mapping_campaign') }}
 ),
 first_conversion as (
         select 
             objective,
             dmo.customer_id,
             min(order_datetime) first_conversion
-        from {{ ref('dm_order_mapping_customer_mapping_campaign') }} dmo
+        from {{ ref('model_dm_order_mapping_customer_mapping_campaign') }} dmo
         inner join retargeting r on dmo.campaign_id = r.campaign_id
         group by objective,dmo.customer_id
 )

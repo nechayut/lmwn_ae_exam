@@ -1,7 +1,7 @@
 {{ config(
     materialized='view',
     schema='dm',
-    alias='dm_incentive_detail_show_in_order_transaction',
+    alias='model_dm_incentive_detail_show_in_order_transaction',
     tags=['dm','fleet']
 ) }}
 
@@ -10,13 +10,13 @@ with driver_incentive as (
                                 driver_id ,
                                 incentive_program ,
                                 applied_date 
-                        FROM {{ ref('fact_driver_incentive') }}
+                        FROM {{ ref('model_fact_driver_incentive') }}
         ),
         incentive_order_show_in_order_transaction as (
                         SELECT 
                                 omd.*,
                                 incentive_program 
-                        FROM {{ ref('dm_order_mapping_driver') }} omd
+                        FROM {{ ref('model_dm_order_mapping_driver') }} omd
                         left join driver_incentive di on omd.driver_id = di.driver_id
                         and cast(omd.order_datetime as date) = di.applied_date
                         where incentive_program is not null),
@@ -41,7 +41,7 @@ with driver_incentive as (
                                 sum(actual_deliveries) complete_order_count_incentive_period,
                                 cast(avg(bonus_amount) as decimal(10,2)) avg_bonus_amount,
                                 cast(sum(bonus_amount) as decimal(10,2)) bonus_amount
-                        FROM {{ ref('fact_driver_incentive') }}
+                        FROM {{ ref('model_fact_driver_incentive') }}
                         group by incentive_program)
         
         select idm.*,driver_count_incentive_period,

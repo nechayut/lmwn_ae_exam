@@ -3,7 +3,7 @@
 
     schema='dwh',
     unique_key='log_id',
-    alias='fact_driver_incentive',
+    alias='model_fact_driver_incentive',
     tags=['fact']
 ) }}
 with driver_earlies as (
@@ -12,7 +12,7 @@ with driver_earlies as (
         driver_id,
         effective_start,
         effective_end,
-        row_number() over(partition by driver_id order by effective_start) rn   from {{ ref('dim_drivers') }} ) d_earlies
+        row_number() over(partition by driver_id order by effective_start) rn   from {{ ref('model_dim_drivers') }} ) d_earlies
         where rn = 1)
 
 select
@@ -31,7 +31,7 @@ select
     end as driver_pre_signup_order,
     current_timestamp as dwh_load_dt
 from {{source('raw','order_log_incentive_sessions_driver_incentive_logs')}} o
-left join {{ ref('dim_drivers') }} d
+left join {{ ref('model_dim_drivers') }} d
   on o.driver_id = d.driver_id
  and o.applied_date between d.effective_start and d.effective_end
 left join driver_earlies d_earlies

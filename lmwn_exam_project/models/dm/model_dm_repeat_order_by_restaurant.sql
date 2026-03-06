@@ -1,7 +1,7 @@
 {{ config(
     materialized='view',
     schema='dm',
-    alias='dm_repeat_order_by_restaurant',
+    alias='model_dm_repeat_order_by_restaurant',
     tags=['dm','customer service']
 ) }}
 
@@ -9,7 +9,7 @@ with unique_customer as (
         select 
             restaurant_id,
             count(distinct customer_id) unique_customer
-        from {{ ref('fact_order_transactions') }} 
+        from {{ ref('model_fact_order_transactions') }} 
         group by restaurant_id
         ),
 
@@ -20,7 +20,7 @@ unique_customer_repeat_order as(
                                                                                 select 
                                                                                     restaurant_id,
                                                                                     customer_id,
-                                                                                from {{ ref('fact_order_transactions') }}
+                                                                                from {{ ref('model_fact_order_transactions') }}
                                                                                 group by restaurant_id,customer_id
                                                                                 having count(*) > 1
                                                                                 )

@@ -1,7 +1,7 @@
 {{ config(
     materialized='view',
     schema='dm',
-    alias='dm_support_ticket_detail',
+    alias='model_dm_support_ticket_detail',
     tags=['dm','customer service']
 ) }}
 
@@ -19,4 +19,4 @@ select
         compensation_amount,
         case when lower(status) != 'resolved' then true else false end is_unresolved,
         case when compensation_amount > 0 then true else false end is_escalated_tickets,
-from {{ ref('fact_support_ticket') }}
+from {{ ref('model_fact_support_ticket') }}

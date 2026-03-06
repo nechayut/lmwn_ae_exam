@@ -10,14 +10,14 @@ with first_last_session_start as (
         SELECT customer_id,
                 date_trunc('day',max(session_start)) last_session_date,
                 date_trunc('day',min(session_start)) first_session_date,
-        from {{ ref('fact_customer_session') }}
+        from {{ ref('model_fact_customer_session') }}
         group by customer_id
     ),
     first_last_order_date as (
             SELECT customer_id,
                     date_trunc('day',max(order_datetime)) last_order_date,
                     date_trunc('day',min(order_datetime)) first_order_date,
-            FROM {{ ref('dm_order_mapping_customer_mapping_campaign') }}
+            FROM {{ ref('model_dm_order_mapping_customer_mapping_campaign') }}
             group by customer_id
             ),
 
@@ -28,7 +28,7 @@ with first_last_session_start as (
             from (  
                     SELECT campaign_id,
                             customer_id
-                    FROM {{ ref('dm_order_mapping_customer_mapping_campaign') }} 
+                    FROM {{ ref('model_dm_order_mapping_customer_mapping_campaign') }} 
                     where campaign_id is not null
                     group by campaign_id,customer_id
                     having count(*) > 1)
@@ -45,10 +45,10 @@ with first_last_session_start as (
                 sum(ad_cost) ad_cost
                                     
                 
-        FROM {{ ref('dm_order_mapping_customer_mapping_campaign') }} dm
+        FROM {{ ref('model_dm_order_mapping_customer_mapping_campaign') }} dm
         left join first_last_session_start s on dm.customer_id = s.customer_id
         left join first_last_order_date flo on dm.customer_id = flo.customer_id
-        left join {{ ref('dim_campaign') }} c on c.campaign_id = dm.campaign_id
+        left join {{ ref('model_dim_campaign') }} c on c.campaign_id = dm.campaign_id
         where dm.campaign_id is not null
         group by dm.campaign_id,c.channel,platform
         )

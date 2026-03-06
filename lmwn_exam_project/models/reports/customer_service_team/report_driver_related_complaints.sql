@@ -18,7 +18,7 @@ with driver_issue as (
                 sum(case when issue_sub_type = 'rude' then 1 else 0 end) rude_case,
                 cast(avg(resolution_time_hour)as decimal(10,2)) avg_resolution_time_hour,
                 cast(avg(csat_score)as decimal(10,2)) customer_satisfaction_scores,
-        from {{ ref('dm_support_ticket_detail') }} 
+        from {{ ref('model_dm_support_ticket_detail') }} 
         where issue_type != 'payment'
         group by driver_id
         ),
@@ -26,7 +26,7 @@ with driver_issue as (
                 select 
                         driver_id,
                         count(*) total_order_count
-                from {{ ref('fact_order_transactions') }}
+                from {{ ref('model_fact_order_transactions') }}
                 group by driver_id
         )
 select 
@@ -35,5 +35,5 @@ select
         cast(total_complaints_volume/total_order_count as decimal(10,2)) complaints_ratio,
         current_timestamp as report_load_dt
 from driver_issue di
-left join {{ ref('dim_drivers') }} dd on di.driver_id = dd.driver_id
+left join {{ ref('model_dim_drivers') }} dd on di.driver_id = dd.driver_id
 left join total_order t on di.driver_id = t.driver_id 

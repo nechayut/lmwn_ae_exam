@@ -2,7 +2,7 @@
     materialized='incremental',
     unique_key='order_id',
     schema='dm',
-    alias='dm_order_mapping_driver',
+    alias='model_dm_order_mapping_driver',
     tags=['mart','marketing']
 ) }}
 
@@ -21,14 +21,14 @@ with order_status as (SELECT
                                              THEN status_datetime END) AS failed_ts,
                                     MAX(CASE WHEN status = 'canceled' 
                                              THEN status_datetime END) AS canceled_ts
-                                FROM {{ ref('fact_order_status') }}
+                                FROM {{ ref('model_fact_order_status') }}
                                 GROUP BY order_id
                                 ),
                                 support_ticket as (
-                                    select order_id ,csat_score from {{ ref('fact_support_ticket') }}
+                                    select order_id ,csat_score from {{ ref('model_fact_support_ticket') }}
                                 ),
                                 drivers as (
-                                    select driver_sk,vehicle_type,region from {{ ref('dim_drivers') }}
+                                    select driver_sk,vehicle_type,region from {{ ref('model_dim_drivers') }}
                                 ) 
         SELECT 
                 ot.order_id,
@@ -59,7 +59,7 @@ with order_status as (SELECT
                 cast(date_diff('minute',picked_up_ts,completed_ts) as decimal(10,2)) transport_minute,
                 cast(date_diff('minute',created_ts,completed_ts) as decimal(10,2)) delivery_minute,
                 current_timestamp as dm_load_dt
-        FROM {{ ref('fact_order_transactions') }} ot
+        FROM {{ ref('model_fact_order_transactions') }} ot
         left join order_status os on ot.order_id = os.order_id
         left join support_ticket st on ot.order_id = st.order_id
         left join drivers d on ot.driver_sk = d.driver_sk

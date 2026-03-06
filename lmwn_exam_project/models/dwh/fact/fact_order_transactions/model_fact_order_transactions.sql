@@ -3,7 +3,7 @@
 
     schema='dwh',
     unique_key='order_id',
-    alias='fact_order_transactions',
+    alias='model_fact_order_transactions',
     tags=['fact']
 ) }}
 with customers_earlies as (
@@ -11,7 +11,7 @@ with customers_earlies as (
         customer_id,
         effective_start,
         effective_end,
-        row_number() over(partition by customer_id order by effective_start) rn  from {{ ref('dim_customers') }} ) c_earlies
+        row_number() over(partition by customer_id order by effective_start) rn  from {{ ref('model_dim_customers') }} ) c_earlies
         where rn = 1),
   driver_earlies as (
   select * from (select 
@@ -19,7 +19,7 @@ with customers_earlies as (
         driver_id,
         effective_start,
         effective_end,
-        row_number() over(partition by driver_id order by effective_start) rn   from {{ ref('dim_drivers') }} ) d_earlies
+        row_number() over(partition by driver_id order by effective_start) rn   from {{ ref('model_dim_drivers') }} ) d_earlies
         where rn = 1)
 
 select
@@ -46,12 +46,12 @@ select
     end as driver_pre_signup_order,
     current_timestamp as dwh_load_dt
 from {{source('raw','order_transactions')}} o
-left join {{ ref('dim_customers') }} c
+left join {{ ref('model_dim_customers') }} c
   on o.customer_id = c.customer_id
  and o.order_datetime between c.effective_start and c.effective_end
 left join customers_earlies c_earlies
   on o.customer_id = c_earlies.customer_id
-left join {{ ref('dim_drivers') }} d
+left join {{ ref('model_dim_drivers') }} d
   on o.driver_id = d.driver_id
  and o.order_datetime between d.effective_start and d.effective_end
 left join driver_earlies d_earlies

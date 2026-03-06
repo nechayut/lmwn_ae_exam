@@ -1,5 +1,5 @@
 models:
-  - name: dim_campaign
+  - name: model_dim_campaign
     columns:
       - name: campaign_id
         tests: [not_null, unique]
@@ -10,7 +10,7 @@ models:
       - name: dwh_load_dt
         tests: [not_null]
 
-  - name: dim_restaurants
+  - name: model_dim_restaurants
     columns:
       - name: restaurant_id
         tests: [not_null, unique]
@@ -21,7 +21,7 @@ models:
       - name: dwh_load_dt
         tests: [not_null]
 
-  - name: dim_customers
+  - name: model_dim_customers
     columns:
       - name: customer_sk
         tests: [not_null, unique]
@@ -34,7 +34,7 @@ models:
       - name: dwh_load_dt
         tests: [not_null]
 
-  - name: dim_drivers
+  - name: model_dim_drivers
     columns:
       - name: driver_sk
         tests: [not_null, unique]
@@ -47,7 +47,7 @@ models:
       - name: dwh_load_dt
         tests: [not_null]
 
-  - name: fact_order_transactions
+  - name: model_fact_order_transactions
     columns:
       - name: order_id
         tests: [not_null, unique]
@@ -59,7 +59,7 @@ models:
         tests:
           - not_null
           - relationships:
-              to: ref('dim_restaurants')
+              to: ref('model_dim_restaurants')
               field: restaurant_id
       - name: driver_id
         tests: [not_null]
@@ -68,7 +68,7 @@ models:
       - name: dwh_load_dt
         tests: [not_null]
 
-  - name: fact_order_status
+  - name: model_fact_order_status
     columns:
       - name: log_id
         tests: [not_null, unique]
@@ -76,7 +76,7 @@ models:
         tests:
           - not_null
           - relationships:
-              to: ref('fact_order_transactions')
+              to: ref('model_fact_order_transactions')
               field: order_id
       - name: status
         tests: [not_null]
@@ -85,7 +85,7 @@ models:
       - name: dwh_load_dt
         tests: [not_null]
 
-  - name: fact_support_ticket
+  - name: model_fact_support_ticket
     columns:
       - name: ticket_id
         tests: [not_null, unique]
@@ -98,17 +98,17 @@ models:
       - name: order_id
         tests:
           - relationships:
-              to: ref('fact_order_transactions')
+              to: ref('model_fact_order_transactions')
               field: order_id
       - name: restaurant_id
         tests:
           - relationships:
-              to: ref('dim_restaurants')
+              to: ref('model_dim_restaurants')
               field: restaurant_id
       - name: dwh_load_dt
         tests: [not_null]
 
-  - name: fact_ticket_status
+  - name: model_fact_ticket_status
     columns:
       - name: log_id
         tests: [not_null, unique]
@@ -116,7 +116,7 @@ models:
         tests:
           - not_null
           - relationships:
-              to: ref('fact_support_ticket')
+              to: ref('model_fact_support_ticket')
               field: ticket_id
       - name: status
         tests: [not_null]
@@ -125,7 +125,7 @@ models:
       - name: dwh_load_dt
         tests: [not_null]
 
-  - name: fact_customer_session
+  - name: model_fact_customer_session
     columns:
       - name: session_id
         tests: [not_null, unique]
@@ -138,7 +138,7 @@ models:
       - name: dwh_load_dt
         tests: [not_null]
 
-  - name: fact_driver_incentive
+  - name: model_fact_driver_incentive
     columns:
       - name: log_id
         tests: [not_null, unique]
@@ -151,7 +151,7 @@ models:
       - name: dwh_load_dt
         tests: [not_null]
 
-  - name: fact_campaign_interactions
+  - name: model_fact_campaign_interactions
     columns:
       - name: interaction_id
         tests: [not_null, unique]
@@ -161,7 +161,7 @@ models:
         tests:
           - not_null
           - relationships:
-              to: ref('dim_campaign')
+              to: ref('model_dim_campaign')
               field: campaign_id
       - name: customer_id
         tests: [not_null]

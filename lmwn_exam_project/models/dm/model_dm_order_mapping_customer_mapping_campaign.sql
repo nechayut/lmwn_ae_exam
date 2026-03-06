@@ -2,14 +2,14 @@
     materialized='incremental',
     unique_key='order_id',
     schema='dm',
-    alias='dm_order_mapping_customer_mapping_campaign',
+    alias='model_dm_order_mapping_customer_mapping_campaign',
     tags=['mart','marketing']
 ) }}
 
 with order_sequence_after_validate as (
                 select order_id,
                         row_number() over(partition by customer_id order by order_datetime) customer_order_sequence_after_validate,
-                        from {{ ref('fact_order_transactions') }}
+                        from {{ ref('model_fact_order_transactions') }}
                         where customer_pre_signup_order = false
         )
         select 
@@ -38,11 +38,11 @@ with order_sequence_after_validate as (
         camp.is_new_customer ,
         camp.customer_pre_signup_order ,
         current_timestamp as dm_load_dt
-        from {{ ref('fact_order_transactions') }} o
-        inner join {{ ref('dim_customers') }} cus on o.customer_sk = cus.customer_sk
-        left join {{ ref('fact_campaign_interactions') }} camp on o.order_id = camp.order_id
+        from {{ ref('model_fact_order_transactions') }} o
+        inner join {{ ref('model_dim_customers') }} cus on o.customer_sk = cus.customer_sk
+        left join {{ ref('model_fact_campaign_interactions') }} camp on o.order_id = camp.order_id
         left join order_sequence_after_validate oav on o.order_id = oav.order_id
-        left join {{ ref('dim_restaurants') }} r on o.restaurant_id = r.restaurant_id  
+        left join {{ ref('model_dim_restaurants') }} r on o.restaurant_id = r.restaurant_id  
 
 {% if is_incremental() %}
   where o.dwh_load_dt > (

@@ -11,7 +11,7 @@ with agg as (select *,
                 cast((conversions::double / nullif(clicks, 0)) as decimal(10,4)) as conversion_rate,
                 cast((clicks::double / nullif(impressions, 0)) as decimal(10,4)) as click_through_rate,
                 cast((ads_spend::double / nullif(purchasers, 0)) as decimal(10,4)) as cost_per_acquisition,
-            from {{ ref('dm_campaign_effectiveness_monthly') }})
+            from {{ ref('model_dm_campaign_effectiveness_monthly') }})
 select r.report_month,
         r.campaign_id,
         d.campaign_name,
@@ -34,4 +34,4 @@ select r.report_month,
         r.purchasers,
         current_timestamp as report_load_dt
 from agg r
-join {{ ref('dim_campaign') }} d on r.campaign_id = d.campaign_id
+join {{ ref('model_dim_campaign') }} d on r.campaign_id = d.campaign_id

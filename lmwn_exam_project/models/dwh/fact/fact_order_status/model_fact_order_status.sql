@@ -3,19 +3,19 @@
 
     schema='dwh',
     unique_key='log_id',
-    alias='fact_ticket_status',
+    alias='model_fact_order_status',
     tags=['fact']
 ) }}
 
+
 select
     log_id,
-    ticket_id,
+    order_id,
     status,
     status_datetime,
-    agent_id,
+    updated_by,
     current_timestamp as dwh_load_dt
-from {{source('raw','support_ticket_status_logs')}} o
-
+from {{source('raw','order_log_incentive_sessions_order_status_logs')}} 
 
 {% if is_incremental() %}
 where status_datetime >= (
