@@ -11,6 +11,7 @@
       * Cost associated with running the campaign.  
       * Total revenue attributed to each campaign.  
       * Marketing efficiency metrics (e.g., cost per acquired customer and return on advertising spend).  
+
   * **Customer Acquisition Report**  
     * **Business Objective:** Understand how successful each campaign is at acquiring new customers and how those customers behave post-acquisition.  
     * **Required Insight:**  
@@ -20,6 +21,7 @@
       * Average time between first interaction and first purchase.  
       * Total marketing cost spent to acquire these customers.  
       * Segmentation by channel/platform for comparison.  
+      
   * **Retargeting Performance Report**  
     * **Business Objective:** Evaluate retargeting campaigns that aim to bring back previous or inactive customers and see if the strategy effectively re-engages past users.  
     * **Required Insight:**  

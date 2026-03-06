@@ -1,0 +1,471 @@
+models:
+  - name: report_campaign_effectiveness_monthly
+    description: >
+      Final monthly marketing performance report that summarizes campaign performance
+      across platforms. This report includes campaign exposure, engagement, conversions,
+      spend, attributed revenue, and efficiency metrics such as ROAS, CPC, CPA,
+      CTR, and conversion rate.
+
+    columns:
+      - name: report_month
+        description: Month of the report in monthly grain.
+
+      - name: campaign_id
+        description: Unique identifier of the campaign.
+
+      - name: campaign_name
+        description: Business-facing campaign name from campaign dimension.
+
+      - name: campaign_type
+        description: Campaign classification such as acquisition or retargeting.
+
+      - name: platform
+        description: Marketing platform where the campaign interaction occurred.
+
+      - name: channel
+        description: Marketing channel associated with the campaign.
+
+      - name: objective
+        description: Campaign objective defined in campaign metadata.
+
+      - name: total_budget
+        description: Total allocated budget for the campaign.
+
+      - name: ads_spend
+        description: Total advertising spend aggregated for the report month and campaign.
+
+      - name: attributed_revenue
+        description: Revenue attributed to the campaign during the report period.
+
+      - name: return_on_ads_spend
+        description: ROAS calculated as attributed_revenue divided by ads_spend.
+
+      - name: cost_per_acquisition
+        description: Cost per purchaser calculated as ads_spend divided by purchasers.
+
+      - name: impressions
+        description: Total number of ad impressions.
+
+      - name: clicks
+        description: Total number of ad clicks.
+
+      - name: conversions
+        description: Total number of conversion events.
+
+      - name: click_through_rate
+        description: CTR calculated as clicks divided by impressions multiplied by 100.
+
+      - name: cost_per_click
+        description: CPC calculated as ads_spend divided by clicks.
+
+      - name: conversion_rate
+        description: Conversion rate calculated as conversions divided by clicks multiplied by 100.
+
+      - name: unique_clickers
+        description: Number of distinct users who clicked the campaign.
+
+      - name: purchasers
+        description: Number of distinct purchasers attributed to the campaign.
+
+      - name: report_load_dt
+        description: Timestamp when the report row was generated.
+
+
+
+  - name: report_customer_acquisition
+    description: >
+      Final report measuring how effective each campaign is at acquiring new customers
+      and describing their post-acquisition behavior. This report includes new customer count,
+      average order value, repeat customer count, activity duration after first purchase,
+      time from first interaction to first purchase, and customer acquisition cost.
+
+    columns:
+      - name: campaign_id
+        description: Unique identifier of the campaign.
+
+      - name: channel
+        description: Marketing channel associated with the campaign.
+
+      - name: platform
+        description: Marketing platform associated with the campaign activity.
+
+      - name: new_customer_count
+        description: Number of customers whose order sequence indicates their first purchase.
+
+      - name: first_orders_from_validate_customers_count
+        description: Number of first orders from customers that passed validation logic.
+
+      - name: avg_order_value
+        description: Average order value across campaign-attributed orders.
+
+      - name: transaction_count
+        description: Total number of attributed transactions.
+
+      - name: avg_days_active_after_first_purchase
+        description: >
+          Average number of days between first purchase date and the latest observed
+          customer activity date based on orders or sessions.
+
+      - name: avg_days_from_first_interaction_to_purchase
+        description: >
+          Average number of days between first observed customer interaction and
+          first purchase date.
+
+      - name: ad_cost
+        description: Total advertising cost attributed to the campaign.
+
+      - name: repeat_customer_count
+        description: Number of customers with more than one attributed order for the campaign.
+
+      - name: cost_of_customer_acquisition
+        description: Customer acquisition cost calculated as ad_cost divided by new_customer_count.
+
+      - name: report_load_dt
+        description: Timestamp when the report row was generated.
+
+
+
+  - name: report_retargeting_performance
+    description: >
+      Final report evaluating retargeting campaign effectiveness in re-engaging
+      previously active customers. The report includes targeted customer volume,
+      returned customer volume, spend from retargeted customers, time gap between
+      original and returning orders, time gap between returning and repeat orders,
+      and retention rate segmented by campaign objective and customer segment.
+
+    columns:
+      - name: campaign_objective
+        description: Objective of the retargeting campaign.
+
+      - name: customer_segment
+        description: Customer segment from the customer dimension.
+
+      - name: unique_targeted_count
+        description: Number of distinct customers targeted by retargeting campaigns.
+
+      - name: unique_returned_count
+        description: Number of distinct customers who returned through conversion events.
+
+      - name: total_spend_by_retargeted_customers
+        description: Total spend generated by retargeted customers who returned.
+
+      - name: avg_day_gap_original_and_returning_orders
+        description: Average number of days between the original order and the returning order.
+
+      - name: avg_day_gap_returning_and_repeat_orders
+        description: Average number of days between the returning order and the next repeat order.
+
+      - name: retention_count
+        description: Number of customers who placed an order after the retargeting return event.
+
+      - name: percent_retention_rate
+        description: Retention rate calculated as retention_count divided by unique_targeted_count multiplied by 100.
+
+      - name: report_load_dt
+        description: Timestamp when the report row was generated.
+
+
+
+
+  - name: report_delivery_zone_heatmap
+    description: >
+      Final report summarizing delivery performance by delivery zone and hour slot.
+      This report is used to monitor operational efficiency, completion rate,
+      rejection rate, driver coverage, and late delivery trends across zones.
+
+    columns:
+      - name: delivery_zone
+        description: Geographic delivery zone used for operational analysis.
+
+      - name: hour_slot
+        description: Hour bucket representing the reporting time window.
+
+      - name: total_order_count
+        description: Total number of orders requested in the delivery zone and hour slot.
+
+      - name: total_complete_order_count
+        description: Total number of completed orders in the delivery zone and hour slot.
+
+      - name: percent_complete_rate
+        description: Completion rate calculated as total_complete_order_count divided by total_order_count multiplied by 100.
+
+      - name: avg_delivery_minute
+        description: Weighted average delivery time in minutes based on completed orders.
+
+      - name: total_reject_order_count
+        description: Total number of rejected or canceled orders in the delivery zone and hour slot.
+
+      - name: percent_reject_rate
+        description: Reject rate calculated as total_reject_order_count divided by total_order_count multiplied by 100.
+
+      - name: sum_unique_driver_per_hour_per_day
+        description: Sum of distinct drivers observed per hour per day within the delivery zone.
+
+      - name: sum_unique_canceled_driver_per_hour_per_day
+        description: Sum of distinct canceled drivers observed per hour per day within the delivery zone.
+
+      - name: avg_order_per_hour_per_day
+        description: Average number of orders per hour per day within the delivery zone.
+
+      - name: avg_complete_order_per_hour_per_day
+        description: Average number of completed orders per hour per day within the delivery zone.
+
+      - name: avg_reject_order_per_hour_per_day
+        description: Average number of rejected orders per hour per day within the delivery zone.
+
+      - name: avg_driver_per_hour_per_day
+        description: Average number of active drivers per hour per day within the delivery zone.
+
+      - name: avg_canceled_driver_per_hour_per_day
+        description: Average number of canceled drivers per hour per day within the delivery zone.
+
+      - name: percent_late_delivery_rate
+        description: Late delivery rate calculated as late orders divided by total orders multiplied by 100.
+
+      - name: report_load_dt
+        description: Timestamp when the report row was generated.
+
+
+
+  - name: report_driver_incentive_impact
+    description: >
+      Final report evaluating the impact of driver incentive programs by comparing
+      driver and order performance during incentive periods against overall baseline metrics.
+      This report includes participation rate, completed deliveries, delivery speed,
+      completion rate, cancellation rate, late delivery rate, and average deliveries per driver.
+
+    columns:
+      - name: incentive_program
+        description: Name or identifier of the incentive program.
+
+      - name: avg_total_amount_incentive_period
+        description: Average order amount during the incentive period.
+
+      - name: avg_total_amount
+        description: Overall average order amount across the baseline population.
+
+      - name: bonus_amount
+        description: Total bonus amount associated with the incentive program.
+
+      - name: avg_bonus_amount
+        description: Average bonus amount paid under the incentive program.
+
+      - name: participation_rate
+        description: Participation rate calculated as driver_count_incentive_period divided by driver_count multiplied by 100.
+
+      - name: completed_deliveries_incentive_period
+        description: Total number of completed deliveries during the incentive period.
+
+      - name: avg_delivery_minute_incentive_period
+        description: Average delivery time in minutes during the incentive period.
+
+      - name: avg_delivery_minute
+        description: Overall average delivery time in minutes across the baseline population.
+
+      - name: percent_complete_rate_incentive_period
+        description: Completion rate during the incentive period.
+
+      - name: percent_complete_rate
+        description: Overall completion rate across the baseline population.
+
+      - name: percent_canceled_rate_incentive_period
+        description: Cancellation rate during the incentive period.
+
+      - name: percent_canceled_rate
+        description: Overall cancellation rate across the baseline population.
+
+      - name: percent_late_order_count_incentive_period
+        description: Late delivery rate during the incentive period.
+
+      - name: percent_late_order_count
+        description: Overall late delivery rate across the baseline population.
+
+      - name: avg_actual_deliveries_per_driver_incentive_period
+        description: Average completed deliveries per driver during the incentive period.
+
+      - name: avg_actual_deliveries_per_driver
+        description: Average completed deliveries per driver per day across the baseline population.
+
+      - name: report_load_dt
+        description: Timestamp when the report row was generated.
+
+
+
+  - name: report_driver_performance
+    description: >
+      Final report summarizing delivery driver performance by driver, vehicle type,
+      and delivery zone. The report includes assignment volume, completion rate,
+      responsiveness, transport time, late delivery behavior, and customer rating indicators.
+
+    columns:
+      - name: driver_id
+        description: Unique identifier of the driver.
+
+      - name: vehicle_type
+        description: Vehicle type used by the driver.
+
+      - name: delivery_zone
+        description: Primary delivery zone associated with the driver activity.
+
+      - name: no_of_assign
+        description: Total number of assigned delivery orders.
+
+      - name: no_of_complete
+        description: Total number of completed delivery orders.
+
+      - name: complete_rate
+        description: Completion rate calculated as no_of_complete divided by no_of_assign multiplied by 100.
+
+      - name: responsiveness_minute
+        description: Average responsiveness time in minutes for accepting or responding to assigned jobs.
+
+      - name: transport_minute
+        description: Average transport or delivery duration in minutes.
+
+      - name: late_delivery_count
+        description: Number of late deliveries handled by the driver.
+
+      - name: late_delivery_rate
+        description: Late delivery rate calculated as late_delivery_count divided by no_of_assign multiplied by 100.
+
+      - name: rating
+        description: Average customer satisfaction score associated with the driver.
+
+      - name: customer_issue_count
+        description: Count of customer issue or feedback records associated with the driver.
+
+      - name: report_load_dt
+        description: Timestamp when the report row was generated.
+
+
+
+
+  - name: report_complaint_summary
+    description: >
+      Final summary report for customer complaints aggregated by issue date and issue type.
+      This report provides high-level visibility into complaint volume, resolution time,
+      unresolved tickets, escalated tickets, and compensation metrics.
+
+    columns:
+      - name: issue_date
+        description: Date when the issue was reported.
+
+      - name: issue_type
+        description: High-level complaint category such as food, delivery, or payment.
+
+      - name: issue_volume
+        description: Number of distinct support tickets reported for the given issue date and issue type.
+
+      - name: avg_resolution_time_hour
+        description: Average time in hours required to resolve tickets.
+
+      - name: unresolved_volume
+        description: Number of tickets that remain unresolved.
+
+      - name: escalated_tickets_volume
+        description: Number of tickets escalated for additional support handling.
+
+      - name: total_refund
+        description: Total compensation or refund amount issued for the grouped tickets.
+
+      - name: avg_refund_per_ticket
+        description: Average compensation amount per ticket.
+
+      - name: percent_refund_rate
+        description: Percentage of escalated tickets over total ticket volume multiplied by 100.
+
+      - name: report_load_dt
+        description: Timestamp when the report row was generated.
+
+  
+
+  - name: report_driver_related_complaints
+    description: >
+      Final report analyzing complaints associated with drivers. This report includes
+      total complaint volume, issue subtype breakdown, average resolution time,
+      customer satisfaction score, driver rating, and complaint ratio against total orders handled.
+
+    columns:
+      - name: driver_id
+        description: Unique identifier of the driver.
+
+      - name: total_complaints_volume
+        description: Total number of complaints associated with the driver.
+
+      - name: not_delivered_case
+        description: Number of complaints categorized as not delivered.
+
+      - name: late_case
+        description: Number of complaints categorized as late delivery.
+
+      - name: cold_case
+        description: Number of complaints categorized as cold food or cold delivery issue.
+
+      - name: wrong_item_case
+        description: Number of complaints categorized as wrong item.
+
+      - name: no_mask_case
+        description: Number of complaints categorized as no mask.
+
+      - name: rude_case
+        description: Number of complaints categorized as rude behavior.
+
+      - name: avg_resolution_time_hour
+        description: Average complaint resolution time in hours for the driver.
+
+      - name: customer_satisfaction_scores
+        description: Average customer satisfaction score for resolved complaint cases related to the driver.
+
+      - name: driver_rating
+        description: Current driver rating from the driver dimension table.
+
+      - name: complaints_ratio
+        description: Ratio of total complaints to total orders handled by the driver.
+
+      - name: report_load_dt
+        description: Timestamp when the report row was generated.
+
+
+  - name: report_restaurant_quality_complaint
+    description: >
+      Final report analyzing complaint patterns and quality issues linked to restaurants.
+      This report includes complaint volume, customer complaint counts, issue subtype breakdown,
+      resolution time, compensation metrics, complaint ratio, and repeat purchase behavior after complaint.
+
+    columns:
+      - name: restaurant_id
+        description: Unique identifier of the restaurant.
+
+      - name: total_complaints_volume
+        description: Total number of complaints associated with the restaurant.
+
+      - name: unique_customer_complaints_count
+        description: Number of distinct customers who raised complaints for the restaurant.
+
+      - name: wrong_item_case
+        description: Number of complaints categorized as wrong item.
+
+      - name: cold_case
+        description: Number of complaints categorized as cold food.
+
+      - name: avg_resolution_time_hour
+        description: Average complaint resolution time in hours for the restaurant.
+
+      - name: total_refund
+        description: Total compensation or refund amount issued for complaints linked to the restaurant.
+
+      - name: avg_refund_per_ticket
+        description: Average compensation amount per ticket.
+
+      - name: complaints_ratio
+        description: Ratio of complaints to total orders for the restaurant.
+
+      - name: customer_repeat_rate_after_issue
+        description: Percentage of complaint customers who placed another order with the same restaurant after the first issue.
+
+      - name: repeat_order_rate
+        description: Overall repeat order rate for the restaurant from the repeat order mart.
+
+      - name: report_load_dt
+        description: Timestamp when the report row was generated.
+
