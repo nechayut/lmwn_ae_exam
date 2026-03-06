@@ -53,7 +53,8 @@ select
         ri.*,
         cast(total_complaints_volume/total_order_count as decimal(10,2)) complaints_ratio,
         cast(unique_customer_repeat_order_count/unique_customer_complaints_count*100 as decimal(10,2)) customer_repeat_rate_after_issue,
-        ro.repeat_order_rate
+        ro.repeat_order_rate,
+        current_timestamp as report_load_dt
 from restaurant_issue ri
 left join total_order t on ri.restaurant_id = t.restaurant_id
 left join customer_repeat_order cro on ri.restaurant_id = cro.restaurant_id

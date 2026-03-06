@@ -32,7 +32,8 @@ with driver_issue as (
 select 
         di.*,
         dd.driver_rating,
-        cast(total_complaints_volume/total_order_count as decimal(10,2)) complaints_ratio
+        cast(total_complaints_volume/total_order_count as decimal(10,2)) complaints_ratio,
+        current_timestamp as report_load_dt
 from driver_issue di
 left join {{ ref('dim_drivers') }} dd on di.driver_id = dd.driver_id
 left join total_order t on di.driver_id = t.driver_id 
