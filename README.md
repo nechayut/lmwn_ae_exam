@@ -138,15 +138,15 @@ dwh.model_fact_ticket_status
 
 Fact tables capture business events across the platform.
 
-| Fact Table | Description |
-|---|---|
-| fact_order_transactions | order-level transactions |
-| fact_order_status | order lifecycle events |
-| fact_campaign_interactions | campaign interaction events |
-| fact_customer_session | user session activity |
-| fact_driver_incentive | driver incentive participation |
-| fact_support_ticket | customer support issues |
-| fact_ticket_status | support ticket status history |
+| Fact Table                    | Description                   |
+|-------------------------------|-------------------------------|
+| fact_order_transactions       | order-level transactions      |
+| fact_order_status             | order lifecycle events        |
+| fact_campaign_interactions    | campaign interaction events   |
+| fact_customer_session         | user session activity         |
+| fact_driver_incentive         | driver incentive participation|
+| fact_support_ticket           | customer support issues       |
+| fact_ticket_status            | support ticket status history |
 
 ---
 
@@ -441,12 +441,12 @@ Business rule validation could detect invalid records before warehouse loading.
 
 Examples:
 
-| Validation Rule | Description |
-|---|---|
-| NULL key fields | Detect missing identifiers |
-| end_date < start_date | Invalid date ranges |
-| negative numeric values | Invalid business metrics |
-| invalid status values | Domain value violations |
+| Validation Rule           | Description                |
+|---------------------------|----------------------------|  
+| NULL key fields           | Detect missing identifiers |
+| end_date < start_date     | Invalid date ranges        |
+| negative numeric values   | Invalid business metrics   |
+| invalid status values     | Domain value violations    |
 
 Example error log table:
 
