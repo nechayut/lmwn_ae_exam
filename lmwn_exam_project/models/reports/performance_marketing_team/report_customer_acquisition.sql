@@ -1,7 +1,7 @@
  {{ config(
     materialized='table',
     schema='reports',
-    alias='customer_acquisition_report',
+    alias='report_customer_acquisition',
     tags=['report','marketing']
 ) }}       
         

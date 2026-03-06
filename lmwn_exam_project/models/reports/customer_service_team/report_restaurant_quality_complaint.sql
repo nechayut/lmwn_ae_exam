@@ -1,7 +1,7 @@
  {{ config(
     materialized='table',
     schema='reports',
-    alias='restaurant_quality_complaint_report',
+    alias='report_restaurant_quality_complaint',
     tags=['report','customer service']
 ) }}       
         

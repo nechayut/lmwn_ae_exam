@@ -1,7 +1,7 @@
  {{ config(
     materialized='table',
     schema='reports',
-    alias='driver_related_complaints_report',
+    alias='report_driver_related_complaints',
     tags=['report','customer service']
 ) }}       
         

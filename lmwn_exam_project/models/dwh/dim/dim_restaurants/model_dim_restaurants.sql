@@ -1,8 +1,7 @@
 {{ config(
     materialized='table',
     schema='dwh',
-    alias='model_
-    dim_restaurants',
+    alias='model_dim_restaurants',
     tags=['dim','type1']
 ) }}
 

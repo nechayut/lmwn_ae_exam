@@ -1,7 +1,7 @@
  {{ config(
     materialized='table',
     schema='reports',
-    alias='driver_incentive_impact_report',
+    alias='report_driver_incentive_impact',
     tags=['report','fleet']
 ) }}       
         

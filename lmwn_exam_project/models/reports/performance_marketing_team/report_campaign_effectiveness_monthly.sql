@@ -1,7 +1,7 @@
 {{ config(
     materialized='table',
     schema='reports',
-    alias='campaign_effectiveness_monthly_report',
+    alias='report_campaign_effectiveness_monthly',
     tags=['report','marketing']
 ) }}
 
