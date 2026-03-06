@@ -1,5 +1,5 @@
 {{ config(
-    materialized='table',
+    materialized='view',
     schema='dwh',
     alias='model_dim_restaurants',
     tags=['dim','type1']

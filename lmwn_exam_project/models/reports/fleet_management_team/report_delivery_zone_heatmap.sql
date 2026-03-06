@@ -1,5 +1,6 @@
  {{ config(
-    materialized='table',
+        
+    materialized='view',
     schema='reports',
     alias='report_delivery_zone_heatmap',
     tags=['report','fleet']

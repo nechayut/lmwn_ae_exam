@@ -44,10 +44,10 @@ with driver_incentive as (
                         FROM {{ ref('model_fact_driver_incentive') }}
                         group by incentive_program)
         
-        select idm.*,driver_count_incentive_period,
+select idm.*,driver_count_incentive_period,
         avg_actual_deliveries_per_driver_incentive_period,
         complete_order_count_incentive_period,
         avg_bonus_amount,
         bonus_amount  
-        from intensive_detail_measure idm
-        join intensive_detail id on idm.incentive_program = id.incentive_program
+from intensive_detail_measure idm
+join intensive_detail id on idm.incentive_program = id.incentive_program

@@ -1,5 +1,5 @@
  {{ config(
-    materialized='table',
+    materialized='view',
     schema='reports',
     alias='report_complaint_summary',
     tags=['report','customer service']

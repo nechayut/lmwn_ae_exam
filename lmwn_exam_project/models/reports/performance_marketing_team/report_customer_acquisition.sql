@@ -1,5 +1,5 @@
  {{ config(
-    materialized='table',
+    materialized='view',
     schema='reports',
     alias='report_customer_acquisition',
     tags=['report','marketing']

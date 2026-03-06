@@ -1,6 +1,6 @@
 {{ config(
-    materialized='incremental',
-    unique_key='order_id',
+
+    materialized='view',
     schema='dm',
     alias='model_dm_order_mapping_customer_mapping_campaign',
     tags=['mart','marketing']
@@ -44,9 +44,4 @@ with order_sequence_after_validate as (
         left join order_sequence_after_validate oav on o.order_id = oav.order_id
         left join {{ ref('model_dim_restaurants') }} r on o.restaurant_id = r.restaurant_id  
 
-{% if is_incremental() %}
-  where o.dwh_load_dt > (
-    select coalesce(max(dm_load_dt), timestamp '1900-01-01') from {{ this }}
-)
-{% endif %}
 

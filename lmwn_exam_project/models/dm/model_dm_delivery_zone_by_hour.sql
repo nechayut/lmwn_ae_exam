@@ -1,5 +1,5 @@
 {{ config(
-    materialized='table',
+    materialized='view',
     schema='dm',
     alias='model_dm_delivery_zone_by_hour',
     tags=['dm','fleet']

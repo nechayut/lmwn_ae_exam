@@ -1,5 +1,6 @@
  {{ config(
-    materialized='table',
+        
+    materialized='view',
     schema='reports',
     alias='report_driver_performance',
     tags=['report','fleet']

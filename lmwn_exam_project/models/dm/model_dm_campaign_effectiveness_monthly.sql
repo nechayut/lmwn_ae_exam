@@ -1,6 +1,6 @@
 {{ config(
-    materialized='incremental',
-    unique_key=['report_month','campaign_id','platform'],
+
+    materialized='view',
     schema='dm',
     alias='model_dm_campaign_effectiveness_monthly',
     tags=['mart','marketing']
@@ -24,11 +24,6 @@ select
     cast(sum(total_amount) as decimal(10,2)) total_revenue,
     current_timestamp as dm_load_dt
 from source
-
-{% if is_incremental() %}
-  where date_trunc('month',interaction_datetime) in (select distinct date_trunc('month',interaction_datetime) from source where dm_load_dt > (select max(dm_load_dt) from {{ this }} )) and campaign_id is not null
-{% endif %}
-
 group by report_month ,campaign_id,platform 
 
 
