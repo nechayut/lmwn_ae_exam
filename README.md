@@ -16,7 +16,6 @@ All models and reports are written back into the provided DuckDB database as req
 
 ---
 
-![data lineage](docs/dbt_lineage.png)
 
 ## dbt Lineage
 
